@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock %}
+
+
+{% block body %}
+    
+    <div class="container" id="container">
+        <div style="padding: 20px;">
+            <h2>Descripción</h3>
+            <label>{{descr}}</label>
+            <h2>Features</h3>
+            <div id="features">
+                <h5><b>Provincia</b>: {{prov}}</h5>
+                <h5><b>Municipio</b>: {{munic}}</h5>
+                
+                <ul>
+                {% for tag, value in features %}
+                    <li><b>{{ tag }}:</b> {{value}}</li>
+                {% endfor %}
+                </ul>
+
+                <!-- <h5>{{features}}</h5> -->
+            </div>
+            <h2 style="text-align: center;">Precio estimado</h3>
+            <h1 style="text-align: center;">$ {{pred}}</h5>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{% endblock %}
+
+
+{% block body %}
+    
+    <div class="container" id="container">
+        <div class="form-container right-container">
+            <form action="#">
+                <h1>Quiénes somos</h1>
+                <br>
+                <label>
+                    Un grupo de estudiantes de primer año de la carrera de Ciencias de la Computación de la Universidad de La Habana, inmersos en un proyecto de investigación de Inteligencia Artificial.
+                    <br><br>
+                    El propósito de este experimento es tratar de predecir el precio de una vivienda cubana basados en el texto indicado por el vendedor. Para ello logramos encontrar un dataset de descripciones con sus respectivos precios, limpiamos los datos y extrajimos features de los domicilios, con el objetivo de luego entrenar dos modelos de Machine Learning, una red neuronal y arboles de decisión con gradient boosting.
+                </label>
+            </form>
+        </div>
+        <div class="form-container left-container">
+            <form action="" method="post">    
+                <h1>House Price Predictor</h1>
+                <label for="descripcion">Ingrese los datos de la vivienda:</label>
+                <textarea name="descripcion" placeholder="Descripción:" id="descriptionInput"></textarea>
+                <select name="provincia" id="prov">
+                    <option value="Provincia">Provincia</option>
+                    <option value="Pinar del Río">Pinar del Río</option>
+                    <option value="Artemisa">Artemisa</option>
+                    <option value="La Habana">La Habana</option>
+                    <option value="Mayabeque">Mayabeque</option>
+                    <option value="Matanzas">Matanzas</option>
+                    <option value="Cienfuegos">Cienfuegos</option>
+                    <option value="Villa Clara">Villa Clara</option>
+                    <option value="Sancti Spíritus">Sancti Spíritus</option>
+                    <option value="Ciego de Ávila">Ciego de Ávila</option>
+                    <option value="Camagüey">Camagüey</option>
+                    <option value="Las Tunas">Las Tunas</option>
+                    <option value="Granma">Granma</option>
+                    <option value="Holguín">Holguín</option>
+                    <option value="Santiago de Cuba">Santiago de Cuba</option>
+                    <option value="Guantánamo">Guantánamo</option>
+                    <option value="Isla de la Juventud">Isla de la Juventud</option>
+                </select>
+                <select name="municipio" id="munic">
+                    <option value="Municipio">Municipio</option>
+                    <option value="Arroyo Naranjo">Arroyo Naranjo</option>
+                    <option value="Boyeros">Boyeros</option>
+                    <option value="Centro Habana">Centro Habana</option>
+                    <option value="Cerro">Cerro</option>
+                    <option value="Cotorro">Cotorro</option>
+                    <option value="Diez de Octubre">Diez de Octubre</option>
+                    <option value="Guanabacoa">Guanabacoa</option>
+                    <option value="Habana Vieja">Habana Vieja</option>
+                    <option value="Habana del Este">Habana del Este</option>
+                    <option value="La Lisa">La Lisa</option>
+                    <option value="Marianao">Marianao</option>
+                    <option value="Playa">Playa</option>
+                    <option value="Plaza">Plaza</option>
+                    <option value="Regla">Regla</option>
+                    <option value="San Miguel del Padrón">San Miguel del Padrón</option>
+                </select>
+                
+
+                <input id="calcButton" class="button" type="submit" name="submit" value="Calcular">
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Bienvenid@!</h1>
+                    <p>
+                        Prueba nuestro modelo de Machine Learning para predecir el precio estimado que tendría tu domicilio en Cuba!
+                    </p>
+                    <button class="ghost" id="toLeftPanelButton">
+                        Probar
+                    </button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Quiénes somos?</h1>
+                    <p>
+                        Conoce a los autores y sus propósitos con este proyecto!
+                    </p>
+                    <button class="ghost" id="toRightPanelButton">
+                        Ver
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const toLeftPanelButton = document.getElementById(`toLeftPanelButton`);
+        const toRightPanelButton = document.getElementById(`toRightPanelButton`);
+        const container = document.getElementById(`container`);
+
+        toRightPanelButton.addEventListener("click", () => {
+            container.classList.add("right-panel-active");
+        });
+
+        toLeftPanelButton.addEventListener("click", () => {
+            container.classList.remove("right-panel-active");
+        });
+
+        
+        prov.addEventListener("click", () => {
+            let munic=document.getElementById("munic"); 
+            let prov=document.getElementById("prov"); 
+            let municipalityByProvince=[
+                ["Pinar del Río",["Consolación del Sur","Guane","La Palma","Los Palacios","Mantua","Minas de Matahambre","Pinar del Río","San Juan y Martínez","San Luis","Sandino","Viñales"]],
+                ["Artemisa",["Alquízar","Artemisa","Bauta","Caimito","Guanajay","Güira de Melena","Mariel","San Antonio de los Baños","Bahía Honda","San Cristóbal","Candelaria"]],
+                ["Mayabeque",["Batabanó", "Bejucal", "Güines", "Jaruco", "Madruga", "Melena del Sur", "Nueva Paz", "Quivicán", "San José de las Lajas", "San Nicolás de Bari", "Santa Cruz del Norte"]],
+                [["La Habana"],["Arroyo Naranjo", "Boyeros", "Centro Habana", "Cerro", "Cotorro", "Diez de Octubre", "Guanabacoa", "Habana del Este", "Habana Vieja", "La Lisa", "Marianao", "Playa", "Plaza", "Regla","San Miguel del Padrón"]],
+                [["Matanzas"],["Calimete", "Cárdenas", "Ciénaga de Zapata", "Colón", "Jagüey Grande", "Jovellanos", "Limonar", "Los Arabos", "Martí", "Matanzas", "Pedro Betancourt", "Perico","Unión de Reyes"]], 
+                [["Villa Clara"], ["Caibarién", "Camajuaní", "Cifuentes", "Corralillo", "Encrucijada", "Manicaragua", "Placetas", "Quemado de Güines", "Ranchuelo", "Remedios", "Sagua la Grande", "Santa Clara","Santo Domingo"]], 
+                [["Cienfuegos"], ["Abreus", "Aguada de Pasajeros", "Cienfuegos", "Cruces", "Cumanayagua", "Palmira", "Rodas","Santa Isabel de las Lajas"]],
+                [["Sancti Spíritus"], ["Cabaigúan", "Fomento", "Jatibonico", "La Sierpe", "Sancti Spíritus", "Taguasco", "Trinidad","Yaguajay"]],
+                [["Ciego de Ávila"], ["Ciro Redondo", "Baraguá", "Bolivia", "Chambas", "Ciego de Ávila", "Florencia", "Majagua", "Morón", "Primero de Enero","Venezuela"]],
+                [["Camagüey"], ["Camagüey", "Carlos Manuel de Céspedes", "Esmeralda", "Florida", "Guaimaro", "Jimagüayú", "Minas", "Najasa", "Nuevitas", "Santa Cruz del Sur", "Sibanicú", "Sierra de Cubitas","Vertientes"]],
+                [["Las Tunas"], ["Amancio Rodríguez", "Colombia", "Jesús Menéndez", "Jobabo", "Las Tunas", "Majibacoa", "Manatí","Puerto Padre"]],
+                [["Holguín"], ["Antilla", "Báguanos", "Banes", "Cacocum", "Calixto García", "Cueto", "Frank País", "Gibara", "Holguín", "Mayarí", "Moa", "Rafael Freyre", "Sagua de Tánamo","Urbano Noris"]],
+                [["Granma"], ["Bartolomé Masó", "Bayamo", "Buey Arriba", "Campechuela", "Cauto Cristo", "Guisa", "Jiguaní", "Manzanillo", "Media Luna", "Niquero", "Pilón", "Río Cauto","Yara"]],
+                [["Santiago de Cuba"], ["Contramaestre", "Guamá", "Julio Antonio Mella", "Palma Soriano", "San Luis", "Santiago de Cuba", "Segundo Frente", "Songo la Maya","Tercer Frente"]],
+                [["Guantánamo"], ["Baracoa", "Caimanera", "El Salvador", "Guantánamo", "Imías", "Maisí", "Manuel Tames", "Niceto Pérez", "San Antonio del Sur","Yateras"]],
+                [["Isla de la Juventud"], ["Isla de la Juventud"]],
+            ];
+            let s="";
+            municipalityByProvince.forEach(p => {
+                if(prov.value==p[0]){
+                    p[1].forEach(m => {
+                        s+=`<option value="${m}">${m}</option>`;
+                    });
+                }
+            });
+            munic.innerHTML=s;
+        });
+    </script>
+
+{% endblock %}
